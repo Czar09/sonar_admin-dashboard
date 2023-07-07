@@ -53,31 +53,31 @@ const Sidebar = () => {
                     <h2 className='text-black'>ADMIN DASHBOARD</h2>
                 </div> */}
                 <div className='flex justify-between'>
-                    <Link className='' href="#">
+                    <Link className='' href="/admin">
                         <div className='flex text-sm justify-start  hover:bg-indigo-500 hover:text-white rounded-lg cursor-pointer transition-all duration-300 mt-2 py-3 px-1 text-black font-light'>
                         {/* <i className='text-sm'><MdOutlineAdminPanelSettings/></i> */}
                         Home
                     </div>
                     </Link>
-                    <Link className='' href="#">
+                    <Link className='' href="/orders">
                         <div className='flex text-sm justify-start  hover:bg-indigo-500 hover:text-white rounded-lg cursor-pointer transition-all duration-300 mt-2 py-3 px-1 text-black font-light'>
                         {/* <i className='text-sm'><RiListOrdered/></i> */}
                         Orders
                     </div>
                     </Link>
-                    <Link className='' href="#">
+                    <Link className='' href="/sales">
                         <div className='flex text-sm justify-start  hover:bg-indigo-500 hover:text-white rounded-lg cursor-pointer transition-all duration-300 mt-2 py-3 px-1 text-black font-light'>
                         {/* <i className='text-sm'><FcSalesPerformance/></i> */}
                         Sales
                     </div>
                     </Link>
-                    <Link className='' href="#">
+                    <Link className='' href="/products">
                         <div className='flex text-sm justify-start  hover:bg-indigo-500 hover:text-white rounded-lg cursor-pointer transition-all duration-300 mt-2 py-3 px-1 text-black font-light'>
                         {/* <i className='text-sm'><RiProductHuntLine/></i> */}
                         Products
                     </div>
                     </Link>
-                    <Link className='' href="#">
+                    <Link className='' href="/future-arrivals">
                         <div className='flex text-sm justify-start  hover:bg-indigo-500 hover:text-white rounded-lg cursor-pointer transition-all duration-300 mt-2 py-3 px-1 text-black font-light'>
                         {/* <i className='text-sm'><SiFuturelearn/></i> */}
                         Future Arrivals

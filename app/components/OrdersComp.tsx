@@ -149,7 +149,7 @@ const orders=[
 
 const OrdersComp = () => {
   return (
-    <div className='p-10'>
+    <div className='md:p-10 px-4 py-6'>
          <div className="flex flex-wrap w-full ">
       <div className="lg:w-1/2 w-full mb-6 lg:mb-0">
         <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Total orders</h1>
@@ -162,20 +162,19 @@ const OrdersComp = () => {
             <div className=' flex flex-col ' >
                 {
                     orders.map(order=>(
-                        <div className='px-4 py-2  border-b flex items-center justify-between'>
-                            <div className='flex items-center w-[100%]'>
+                        <div className='md:px-4 py-2  border-b flex items-center justify-between'>
+                            <div className='flex items-center lg:w-[100%]'>
                                 <div >
-                                    <img className='w-10 h-10 rounded-full' src={order.img} />
+                                    <img className='md:w-10 md:h-10 w-7 h-7 rounded-full' src={order.img} />
                                 </div>
                                 <div className='pl-1'>
-                                    <h6 className='text-gray-600 uppercase text-xs'>{order.cust_name}</h6>
+                                    <small className='text-gray-600 uppercase text-xs'>{order.cust_name}</small>
                                 </div>
                             </div>
                             <div className='flex justify-between items-center w-full'>
                                 <div className='flex items-center justify-start gap-2 '>
-                                    <img className='w-10 h-10 rounded-full' src={order.prod_img} alt="" />
+                                    <img className='md:w-10 md:h-10 w-7 h-7  rounded-full' src={order.prod_img} alt="" />
                                     <small className='text-slate-500'>{order.product_name} (Qty: {order.quantity})</small>
-                                    <small className='text-green-500 font-semibold'>₹{order.price}</small>
                                 </div>
                                 <div>
                                 {
