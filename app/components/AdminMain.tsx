@@ -5,13 +5,14 @@ import {AiOutlineOrderedList} from 'react-icons/ai'
 import {BiUserCheck} from 'react-icons/bi'
 import {GiExpense} from 'react-icons/gi'
 import {VscFeedback} from 'react-icons/vsc'
+import Link from 'next/link'
 
 const AdminMain = () => {
   return (
     <>
     <div className='flex items-center justify-around md:mt-2 py-2 px-2 '>
         <div className='lg:px-14 w-full md:px-10 px-1 '>
-            <button className='w-full border border-[#24204B] md:py-2 py-1 rounded-full'>AddProducts</button>
+            <Link href="add-products" className='w-full border border-[gainsboro] lg:px-14 md:px-10 px-1 py-2  rounded-full'>Add Products</Link>
         </div>
         <div className='lg:px-14 md:w-[15%] flex gap-3 '>
             <button className='w-full  py-2 rounded-full text-3xl'><MdNotifications /></button>
