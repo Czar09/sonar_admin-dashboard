@@ -1,6 +1,7 @@
 import React from 'react'
 import { BiLinkExternal } from 'react-icons/bi'
 import Link from 'next/link'
+import { idText } from 'typescript'
 const orders=[
     {
         "id": "6721bshagksal13",
@@ -162,7 +163,7 @@ const OrdersComp = () => {
             <div className=' flex flex-col ' >
                 {
                     orders.map(order=>(
-                        <div className='md:px-4 py-2  border-b flex items-center justify-between'>
+                        <div key={order.id} className='md:px-4 py-2  border-b flex items-center justify-between'>
                             <div className='flex items-center lg:w-[100%]'>
                                 <div >
                                     <img className='md:w-10 md:h-10 w-7 h-7 rounded-full' src={order.img} />
