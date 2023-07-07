@@ -1,8 +1,9 @@
+'use client'
 import React from 'react'
 import { BiLinkExternal } from 'react-icons/bi'
 import Link from 'next/link'
 import { idText } from 'typescript'
-const orders=[
+const orders = [
     {
         "id": "6721bshagksal13",
         "cust_name": "tanuj bhatt",
@@ -148,56 +149,71 @@ const orders=[
     },
 ]
 
+
 const OrdersComp = () => {
-  return (
-    <div className='md:p-10 px-4 py-6'>
-         <div className="flex flex-wrap w-full ">
-      <div className="lg:w-1/2 w-full mb-6 lg:mb-0">
-        <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Total orders</h1>
-        <div className="h-1 w-20 bg-indigo-500 rounded"></div>
-      </div>
-      <p className=" w-full leading-relaxed text-gray-500 py-2">Yeah....! There are 10+ orders.</p>
-    </div>
-        {/* <h1 className='py-2'>Total Orders (10+)</h1> */}
-        <div className='mt-3'>
-            <div className=' flex flex-col ' >
-                {
-                    orders.map(order=>(
-                        <div key={order.id} className='md:px-4 py-2  border-b flex items-center justify-between'>
-                            <div className='flex items-center lg:w-[100%]'>
-                                <div >
-                                    <img className='md:w-10 md:h-10 w-7 h-7 rounded-full' src={order.img} />
+    const onchange=(e:React.ChangeEvent<HTMLSelectElement>)=>{
+        console.log(e.target.value);
+    };
+    return (
+        <div className='md:p-10 px-4 py-6'>
+            <div className="flex flex-wrap w-full ">
+                <div className="lg:w-1/2 w-full mb-6 lg:mb-0">
+                    <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Total orders</h1>
+                    <div className="h-1 w-20 bg-indigo-500 rounded"></div>
+                </div>
+                <p className=" w-full leading-relaxed text-gray-500 py-2">Yeah....! There are 10+ orders.</p>
+            </div>
+            {/* <h1 className='py-2'>Total Orders (10+)</h1> */}
+            <div className='mt-3'>
+                <div className=' flex flex-col ' >
+                    {
+                        orders.map(order => (
+                            <div key={order.id} className='md:px-4 py-2  border-b flex items-center justify-between'>
+                                <div className='flex items-center lg:w-[100%]'>
+                                    <div >
+                                        <img className='md:w-10 md:h-10 w-7 h-7 rounded-full' src={order.img} />
+                                    </div>
+                                    <div className='pl-1'>
+                                        <small className='text-gray-600 uppercase text-xs'>{order.cust_name}</small>
+                                    </div>
                                 </div>
-                                <div className='pl-1'>
-                                    <small className='text-gray-600 uppercase text-xs'>{order.cust_name}</small>
+                                <div className='flex justify-between items-center w-full'>
+                                    <div className='flex items-center justify-start gap-2 '>
+                                        <img className='md:w-10 md:h-10 w-7 h-7  rounded-full' src={order.prod_img} alt="" />
+                                        <small className='text-slate-500'>{order.product_name} (Qty: {order.quantity})</small>
+                                    </div>
+                                    <div>
+                                        {
+                                            order.order_status == "pending" ?
+                                                <button disabled className='border px-2 py-1  rounded-lg text-white text-xs  bg-yellow-500 tracking-wider' type='button'>Pending</button> :
+                                                order.order_status == "completed" ?
+                                                    <button disabled className='border px-2 py-1  rounded-lg text-white text-xs  bg-green-600 tracking-wider ' type='button'>Delivered</button> :
+                                                    <button disabled className='border px-2 py-1  rounded-lg text-white text-xs  bg-red-600 tracking-wider' type='button'>Cancelled</button>
+
+                                        }
+                                    </div>
+                                    <div>
+                                        <select onChange={onchange}  className={`border px-2 py-1  rounded-lg text-white text-xs ${order.order_status=='pending' ?` bg-yellow-500`: order.order_status=='approved' || order.order_status=='delivered'?`bg-green-600`: order.order_status=='cancelled'?`bg-red-600`:`bg-blue-200`}  tracking-wider`}>
+                                            <option className=''  selected >
+                                                {order.order_status}
+                                            </option>
+                                            <option   value="pending">pending</option>
+                                            <option  value="approved">approved</option>
+                                            <option value="delivered">delivered</option>
+                                            <option value="cancelled">cancelled</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <Link href={"/orders/" + order.id} className='text-2xl cursor-pointer'><BiLinkExternal /></Link>
+                                    </div>
                                 </div>
                             </div>
-                            <div className='flex justify-between items-center w-full'>
-                                <div className='flex items-center justify-start gap-2 '>
-                                    <img className='md:w-10 md:h-10 w-7 h-7  rounded-full' src={order.prod_img} alt="" />
-                                    <small className='text-slate-500'>{order.product_name} (Qty: {order.quantity})</small>
-                                </div>
-                                <div>
-                                {
-                                order.order_status == "pending" ?
-                                <button disabled className='border px-2 py-1  rounded-lg text-white text-xs  bg-yellow-500 tracking-wider' type='button'>Pending</button> :
-                                order.order_status == "completed" ?
-                                <button disabled className='border px-2 py-1  rounded-lg text-white text-xs  bg-green-600 tracking-wider ' type='button'>Delivered</button> :
-                                <button disabled className='border px-2 py-1  rounded-lg text-white text-xs  bg-red-600 tracking-wider' type='button'>Cancelled</button>
-                                    
-                                }
-                                </div>
-                                <div>
-                                    <Link href={"/orders/" + order.id} className='text-2xl cursor-pointer'><BiLinkExternal /></Link>
-                                </div>
-                            </div>
-                        </div>
-                    ))
-                }
+                        ))
+                    }
+                </div>
             </div>
         </div>
-    </div>
-  )
+    )
 }
 
 export default OrdersComp
