@@ -41,7 +41,7 @@ const products = [
 
 const FutureArrivals = () => {
   return (
-    <div className='px-10 py-8'>
+    <div className='px-4 lg:px-10 py-8'>
         <section className="text-gray-600 body-font">
   <div className="container   mx-auto">
     <div className="w-full ">
@@ -51,7 +51,7 @@ const FutureArrivals = () => {
       </div>
       <p className="py-2 w-full leading-relaxed text-gray-500">Here are the products which you are planning to launch.</p>
     </div>
-    <div className="grid grid-cols-5">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5">
       {
         products.map(prod=>(
                 <div className=" p-2">

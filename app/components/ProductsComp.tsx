@@ -165,9 +165,9 @@ const products = [
 
 const ProductsComp = () => {
   return (
-    <div className='px-10 py-8'>
+    <div className='px-4 lg:px-10 py-8'>
         <section className="text-gray-600 body-font">
-  <div className="container   mx-auto">
+  <div className="">
     <div className="w-full ">
       <div className=" w-full mb-6 lg:mb-0">
         <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Products</h1>
@@ -175,7 +175,7 @@ const ProductsComp = () => {
       </div>
       <p className="py-2 w-full leading-relaxed text-gray-500">Here are the products which are present in your inventory.</p>
     </div>
-    <div className="grid grid-cols-5">
+    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5">
       {
         products.map(prod=>(
                 <div className=" p-2">
