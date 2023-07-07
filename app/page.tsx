@@ -1,4 +1,4 @@
-import AdminDash from './admin'
+import AdminDash from './admin/page'
 
 export default function Home() {
   return (

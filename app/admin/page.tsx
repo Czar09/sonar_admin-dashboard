@@ -1,6 +1,6 @@
 import React from 'react'
-import Sidebar from './admincomponents/Sidebar'
-import AdminMain from './admincomponents/AdminMain'
+import Sidebar from '../components/Sidebar'
+import AdminMain from '../components/AdminMain'
 
 const AdminDash = () => {
   return (

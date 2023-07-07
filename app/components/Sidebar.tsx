@@ -13,31 +13,31 @@ const Sidebar = () => {
                     <h2 className='text-black'>ADMIN DASHBOARD</h2>
                 </div>
                 <div className='flex flex-col'>
-                    <Link className='' href="#">
+                    <Link className='' href="/admin">
                         <div className='flex justify-start gap-3 hover:bg-indigo-500 hover:text-white rounded-lg cursor-pointer transition-all duration-300 mt-2 py-3 px-4 text-black font-light'>
                         <i className='text-2xl'><MdOutlineAdminPanelSettings/></i>
                         Home
                     </div>
                     </Link>
-                    <Link className='' href="#">
+                    <Link className='' href="/orders">
                         <div className='flex justify-start gap-3 hover:bg-indigo-500 hover:text-white rounded-lg cursor-pointer transition-all duration-300 mt-2 py-3 px-4 text-black font-light'>
                         <i className='text-2xl'><RiListOrdered/></i>
                         Orders
                     </div>
                     </Link>
-                    <Link className='' href="#">
+                    <Link className='' href="/sales">
                         <div className='flex justify-start gap-3 hover:bg-indigo-500 hover:text-white rounded-lg cursor-pointer transition-all duration-300 mt-2 py-3 px-4 text-black font-light'>
                         <i className='text-2xl'><FcSalesPerformance/></i>
                         Sales
                     </div>
                     </Link>
-                    <Link className='' href="#">
+                    <Link className='' href="/products">
                         <div className='flex justify-start gap-3 hover:bg-indigo-500 hover:text-white rounded-lg cursor-pointer transition-all duration-300 mt-2 py-3 px-4 text-black font-light'>
                         <i className='text-2xl'><RiProductHuntLine/></i>
                         Products
                     </div>
                     </Link>
-                    <Link className='' href="#">
+                    <Link className='' href="/future-arrivals">
                         <div className='flex justify-start gap-3 hover:bg-indigo-500 hover:text-white rounded-lg cursor-pointer transition-all duration-300 mt-2 py-3 px-4 text-black font-light'>
                         <i className='text-2xl'><SiFuturelearn/></i>
                         Future Arrivals
