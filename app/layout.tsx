@@ -5,7 +5,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'Sonar Admin Dashboard',
-  description: '',
+  description: 'this is a sonar dashboard'
 }
 
 export default function RootLayout({
