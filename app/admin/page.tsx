@@ -1,8 +1,14 @@
+"use client";
 import React from 'react'
 import Sidebar from '../components/Sidebar'
 import AdminMain from '../components/AdminMain'
+import { GetServerSidePropsContext } from 'next'
+import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
+import { useUser } from '@/utils/useUser'
 
 const AdminDash = () => {
+  const {order, userDetails}= useUser();
+  console.log(order);
   return (
     <>
         <div className='flex flex-col md:flex-row w-full  h-[100vh]'>
@@ -20,3 +26,26 @@ const AdminDash = () => {
 }
 
 export default AdminDash
+
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  // Create authenticated Supabase Client
+  const supabase = createServerSupabaseClient(ctx);
+  // Check if we have a session
+  const {
+    data: { session }
+  } = await supabase.auth.getSession();
+
+  if (!session)
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false
+      }
+    };
+console.log(session);
+  return {
+    props: {
+      initialSession: session,
+    }
+  };
+}
