@@ -4,22 +4,18 @@ import Sidebar from '../components/Sidebar'
 import SalesComp from '../components/SalesComp'
 import { useRouter } from 'next/navigation';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
-import { supabaseAdmin } from '@/utils/supabase-admin';
 
 const Page = () => {
   const router = useRouter();
-  const supabaseClient = useSupabaseClient();
+  const supabase = useSupabaseClient();
   const getSession = async () => {
-    console.log("session");
-    const session = await supabaseAdmin.auth.getSession();
+    const {data:{session}} = await supabase.auth.getSession();
+    console.log(session);
     if(!session){
       router.push('/login');
     }
   }
-  
-  useEffect(() => {
-    getSession();
-  }, [])
+  getSession();
 
   return (
     <>

@@ -35,20 +35,16 @@ function SignIn({ }: Props) {
 		);
 		if (!error) {
 			toast.success('You are logged in');
-			router.push('/');
+			router.push('/admin');
 		}
 		else {
 			toast.error('Invalid credentials');
 		}
-
-
 	};
 
 	return (
 		<div className='grid grid-cols-1 md:grid-cols-1 h-screen w-full'>
-
-			
-			<div className='bg-gradient-to-r from-[#B0F3F1] to-[#FFCFDF] flex flex-col justify-center'>
+			<div className='bg-blue-400 flex flex-col justify-center'>
 				<ToastContainer
 					position="bottom-center"
 					autoClose={2000}
@@ -90,16 +86,7 @@ function SignIn({ }: Props) {
 					</div>
 					<button className='w-full my-5 py-2 bg-red-500 shadow-lg shadow-red-500/50 hover:shadow-red-500/40 text-white font-semibold rounded-lg' type='submit'>SignIn</button>
 					<div className='flex items-center justify-center text-gray-400 font-semibold py-2'>
-						<Link href='/' className='items-center'>Cancel</Link>
-					</div>
-
-					<div className='text-center '>
-					<p className='text-blue-500 font-semibold cursor-pointer'>
-						<Link href='/register'>Not a user? Sign Up Now!!</Link>
-					</p>
-					<p className='text-red-500 font-semibold cursor-pointer mt-2'>
-						<Link href='/forgotPassword'>Forgot Password??</Link>
-					</p>
+						<Link href='/' className='items-center text-red-500'>Cancel</Link>
 					</div>
 				</form>
 			</div>

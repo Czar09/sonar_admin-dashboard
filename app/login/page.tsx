@@ -16,18 +16,15 @@ type Props = {}
 export default function SignInUser({ }: Props) {
 
   const router = useRouter();
-  const supabaseClient = useSupabaseClient();
+  const supabase = useSupabaseClient();
   const getSession = async () => {
-    console.log("session");
-    const session = await supabaseAdmin.auth.getSession();
+    const {data:{session}} = await supabase.auth.getSession();
+    console.log(session);
     if(session){
       router.push('/admin');
     }
   }
-  
-  useEffect(() => {
-    getSession();
-  }, [])
+  getSession();
 
   return (
     <div className=' h-screen'>
