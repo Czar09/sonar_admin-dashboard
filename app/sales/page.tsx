@@ -1,3 +1,4 @@
+'use client';
 import React, { useEffect } from 'react'
 import Sidebar from '../components/Sidebar'
 import SalesComp from '../components/SalesComp'
