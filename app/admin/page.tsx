@@ -1,14 +1,31 @@
 "use client";
-import React from 'react'
+import React, { useEffect } from 'react'
 import Sidebar from '../components/Sidebar'
 import AdminMain from '../components/AdminMain'
 import { GetServerSidePropsContext } from 'next'
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { useUser } from '@/utils/useUser'
+import { useRouter } from 'next/navigation';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { supabaseAdmin } from '@/utils/supabase-admin';
 
-const AdminDash = () => {
+const AdminDash =  () => {
   const {order, userDetails}= useUser();
-  console.log(order);
+  console.log("order");
+  const router = useRouter();
+  const supabaseClient = useSupabaseClient();
+  const getSession = async () => {
+    console.log("session");
+    const session = await supabaseAdmin.auth.getSession();
+    if(!session){
+      router.push('/login');
+    }
+  }
+  
+  useEffect(() => {
+    getSession();
+  }, [order, userDetails])
+
   return (
     <>
         <div className='flex flex-col md:flex-row w-full  h-[100vh]'>
@@ -26,26 +43,3 @@ const AdminDash = () => {
 }
 
 export default AdminDash
-
-export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
-  // Create authenticated Supabase Client
-  const supabase = createServerSupabaseClient(ctx);
-  // Check if we have a session
-  const {
-    data: { session }
-  } = await supabase.auth.getSession();
-
-  if (!session)
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false
-      }
-    };
-console.log(session);
-  return {
-    props: {
-      initialSession: session,
-    }
-  };
-}

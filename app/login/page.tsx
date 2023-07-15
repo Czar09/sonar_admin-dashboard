@@ -6,6 +6,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
 import SignIn from '../components/SignIn'
+import { supabaseAdmin } from '@/utils/supabase-admin';
 
 
 
@@ -16,7 +17,17 @@ export default function SignInUser({ }: Props) {
 
   const router = useRouter();
   const supabaseClient = useSupabaseClient();
-
+  const getSession = async () => {
+    console.log("session");
+    const session = await supabaseAdmin.auth.getSession();
+    if(session){
+      router.push('/admin');
+    }
+  }
+  
+  useEffect(() => {
+    getSession();
+  }, [])
 
   return (
     <div className=' h-screen'>

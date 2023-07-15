@@ -1,8 +1,25 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Sidebar from '../components/Sidebar'
 import SalesComp from '../components/SalesComp'
+import { useRouter } from 'next/navigation';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { supabaseAdmin } from '@/utils/supabase-admin';
 
-const page = () => {
+export const Page = () => {
+  const router = useRouter();
+  const supabaseClient = useSupabaseClient();
+  const getSession = async () => {
+    console.log("session");
+    const session = await supabaseAdmin.auth.getSession();
+    if(!session){
+      router.push('/login');
+    }
+  }
+  
+  useEffect(() => {
+    getSession();
+  }, [])
+
   return (
     <>
     <div className='flex flex-col md:flex-row w-full  h-[100vh]'>
@@ -19,4 +36,3 @@ const page = () => {
   )
 }
 
-export default page

@@ -18,9 +18,9 @@ export default function RootLayout({
 
 
   return (
-    
-     <Provider>
-        <MyUserContextProvider>
+
+    <Provider>
+      <MyUserContextProvider>
         <html lang="en">
           <head>
             <meta
@@ -31,6 +31,6 @@ export default function RootLayout({
           <body className={inter.className}>{children}</body>
         </html>
       </MyUserContextProvider>
-      </Provider>
+    </Provider>
   )
 }
