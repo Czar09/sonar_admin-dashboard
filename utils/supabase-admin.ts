@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { useState } from 'react';
 
 // Note: supabaseAdmin uses the SERVICE_ROLE_KEY which you must only use in a secure server-side context
 // as it has admin priviliges and overwrites RLS policies!
@@ -43,18 +44,17 @@ export const supabaseAdmin = createClient(
 // };
 
 
-const getUser = async (email: string) => {
+const getUsers = async () => {
   const { data, error } = await supabaseAdmin
     .from('users')
-    .select()
-    .eq('email', email)
+    .select('*')
   if (error || !data) {
     throw error || new Error('No user found');
   }
   return data;
 };
 
-const getQuantity = async(id: number) => {
+const getQuantity = async (id: number) => {
   const { data, error } = await supabaseAdmin
     .from('products')
     .select('*')
@@ -65,10 +65,19 @@ const getQuantity = async(id: number) => {
   return data;
 }
 
-const getOrders = async() => {
+const getOrders = async () => {
   const { data, error } = await supabaseAdmin
     .from('orders')
-    .select('*')
+    .select(`
+      *,
+      users (
+        id,
+        email,
+        full_name,
+        phone_number
+        )
+    `)
+    .order('order_date', { ascending: false })
   if (error || !data) {
     throw error || new Error('No product found');
   }
@@ -82,7 +91,7 @@ const addTransactionDetails = async (
   amount: number, //in paise
   status: string,
   payment_id?: string
-)=>{
+) => {
   const { error } = await supabaseAdmin
     .from('transactions')
     .insert({
@@ -93,9 +102,9 @@ const addTransactionDetails = async (
       status: status,
       payment_id: payment_id,
     })
-    if(error) throw error;
-    console.log(`Transaction inserted: ${user_id}`);
-    return;
+  if (error) throw error;
+  console.log(`Transaction inserted: ${user_id}`);
+  return;
 }
 
 const addSubscription = async (
@@ -117,9 +126,9 @@ const addSubscription = async (
       status: status,
       subscription_createdtimestamp: subscription_createdtimestamp,
     })
-    if(error) throw error;
-    console.log(`Subscription inserted: ${user_id}`);
-    return;
+  if (error) throw error;
+  console.log(`Subscription inserted: ${user_id}`);
+  return;
 }
 
 
@@ -222,7 +231,7 @@ export {
   // upsertProductRecord,
   addSubscription,
   addTransactionDetails,
-  getUser, 
+  getUsers,
   getQuantity,
   getOrders
   // manageSubscriptionStatusChange
