@@ -175,9 +175,7 @@ const OrdersComp = () => {
     useEffect(() => {
         runFun();
     }, [])
-    usernum?.map((order) => {
-        console.log(order?.prod_data?.["products"]?.map((prod)=>prod?.name));
-    })
+
     const onchange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         console.log(e.target.value);
     };
