@@ -46,25 +46,3 @@ export default function SignInUser({ }: Props) {
   )
 }
 
-export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
-  // Create authenticated Supabase Client
-  const supabase = createServerSupabaseClient(ctx);
-  // Check if we have a session
-  const {
-    data: { session }
-  } = await supabase.auth.getSession();
-
-  if (session)
-    return {
-      redirect: {
-        destination: '/admin',
-        permanent: false
-      }
-    };
-
-  return {
-    props: {
-      initialSession: session,
-    }
-  };
-}
