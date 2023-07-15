@@ -1,19 +1,13 @@
 "use client";
-import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
-import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
 import SignIn from '../components/SignIn'
-import { supabaseAdmin } from '@/utils/supabase-admin';
-
-
 
 type Props = {}
 
-
-export default function SignInUser({ }: Props) {
+const Page = () => {
 
   const router = useRouter();
   const supabase = useSupabaseClient();
@@ -24,7 +18,9 @@ export default function SignInUser({ }: Props) {
       router.push('/admin');
     }
   }
-  getSession();
+  useEffect(() => {
+    getSession();
+  }, []);
 
   return (
     <div className=' h-screen'>
@@ -43,3 +39,4 @@ export default function SignInUser({ }: Props) {
   )
 }
 
+export default Page

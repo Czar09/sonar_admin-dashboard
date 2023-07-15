@@ -12,10 +12,12 @@ const Page = () => {
     const {data:{session}} = await supabase.auth.getSession();
     console.log(session);
     if(!session){
-      router.push('/login');
+      router.push('login');
     }
   }
-  getSession();
+  useEffect(() => {
+    getSession();
+  }, []);
 
   return (
     <>

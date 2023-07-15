@@ -11,16 +11,16 @@ const Page = () => {
   const router = useRouter();
   const supabaseClient = useSupabaseClient();
   const getSession = async () => {
-    console.log("session");
-    const session = await supabaseAdmin.auth.getSession();
+    const {data:{session}} = await supabaseClient.auth.getSession();
+    console.log(session);
     if(!session){
-      router.push('/login');
+      router.push('login');
     }
   }
-  
   useEffect(() => {
     getSession();
-  }, [])
+  }, []);
+
   return (
     <>
     <div className='flex flex-col md:flex-row w-full  h-[100vh]'>
