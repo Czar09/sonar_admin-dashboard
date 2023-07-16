@@ -84,6 +84,16 @@ const getOrders = async () => {
   return data;
 }
 
+const getProducts = async () => {
+  const {data, error} = await supabaseAdmin
+    .from('products')
+    .select('*')
+    .order('quantity', { ascending: true })
+  if (error || !data) {
+    throw error || new Error('No product found');
+  }
+  return data;
+}
 const addTransactionDetails = async (
   user_id: string,
   itinerary_id: string,
@@ -233,6 +243,7 @@ export {
   addTransactionDetails,
   getUsers,
   getQuantity,
-  getOrders
+  getOrders,
+  getProducts
   // manageSubscriptionStatusChange
 };

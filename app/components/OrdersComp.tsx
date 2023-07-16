@@ -211,48 +211,39 @@ const OrdersComp = () => {
                 <p className=" w-full leading-relaxed text-gray-500 py-2">Yeah....! There are 10+ orders.</p>
             </div>
             {/* <h1 className='py-2'>Total Orders (10+)</h1> */}
-            <div className='mt-3'>
-                <div className=' ' >
-                    {
-                        usernum?.map(order => (
-                            <div key={order.id} className='md:px-4 py-2 grid grid-cols-4 gap-1 border-b  items-center justify-between'>
-                                <div className='flex'>
-                                    <div className='pl-1'>
-                                        <small className='text-gray-600 uppercase text-xs'>{order?.users?.["full_name"]}</small>
-                                    </div>
-                                </div>
-                                <div className='flex items-center lg:w-[100%]'>
-                                    <div className='pl-1'>
-                                        <small className='text-gray-600 uppercase text-xs'>{order?.users?.["phone_number"]}</small>
-                                    </div>
-                                </div>
-                                <div className='flex justify-between items-center w-full'>
-                                    <div className='flex flex-col items-center justify-start gap-2 '>
-                                        {
-                                            order?.prod_data?.["products"]?.map((prod: any) => (
-                                                <small key={prod?.name} className='text-gray-600 uppercase text-md'><strong>{prod?.name}</strong> x{prod?.quantity}</small>
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5">
+                {
+                    usernum?.map(prod => (
+                        <div key={prod.id} className=" p-2">
+                            <div className={`p-3 rounded-lg ${prod?.status == 'pending' ? ` bg-yellow-500` : prod.order_status == 'approved' || prod?.status == 'delivered' ? `bg-green-600` : prod?.status == 'cancelled' ? `bg-red-600` : `bg-blue-200`}`} >
+
+
+                                <h2 className="text-lg text-gray-900 font-medium title-font mb-4">{prod?.users?.["full_name"]} - <small>₹{prod.amount}</small></h2>
+                                <p className="leading-relaxed text-base">Phone Number: {prod?.users?.["phone_number"]} </p>
+                                <p className="leading-relaxed text-base">ORDER:</p>
+                                <div className='flex-col'>
+                                       {
+                                            prod?.prod_data?.["products"]?.map((prod: any) => (
+                                                <small key={prod?.name} className='ml-2 text-gray-600 uppercase text-lg space-x-3'><strong>{prod?.name}</strong> x{prod?.quantity}</small>
                                             ))
                                         }
-                                    </div>
+                                </div>
+                                <div>
+                                    <select defaultValue={'DEFAULT'} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleUpdate(e, prod?.id)} className={`border px-2 py-1  rounded-lg text-black text-LG   tracking-wider`}>
 
-                                    <div>
-                                        <select defaultValue={'DEFAULT'} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleUpdate(e, order?.id)} className={`border px-2 py-1  rounded-lg text-black text-xs ${order?.status == 'pending' ? ` bg-yellow-500` : order.order_status == 'approved' || order?.status == 'delivered' ? `bg-green-600` : order?.status == 'cancelled' ? `bg-red-600` : `bg-blue-200`}  tracking-wider`}>
-
-                                            <option className='' value="DEFAULT" >
-                                                {order?.status}
-                                            </option>
-                                            <option value="pending">pending</option>
-                                            <option value="approved">approved</option>
-                                            <option value="delivered">delivered</option>
-                                            <option value="cancelled">cancelled</option>
-                                        </select>
-                                    </div>
-                                   
+                                        <option className='' value="DEFAULT" >
+                                            {prod?.status}
+                                        </option>
+                                        <option value="pending">pending</option>
+                                        <option value="approved">approved</option>
+                                        <option value="delivered">delivered</option>
+                                        <option value="cancelled">cancelled</option>
+                                    </select>
                                 </div>
                             </div>
-                        ))
-                    }
-                </div>
+                        </div>
+                    ))
+                }
             </div>
         </div>
     )
@@ -285,3 +276,5 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
         }
     };
 }
+
+

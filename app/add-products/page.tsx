@@ -5,7 +5,6 @@ import Sidebar from '../components/Sidebar'
 import AddProducts from '../components/AddProducts'
 import { useRouter } from 'next/navigation';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
-import { supabaseAdmin } from '@/utils/supabase-admin';
 
 const Page = () => {
   const router = useRouter();
