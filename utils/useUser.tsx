@@ -53,7 +53,6 @@ export const MyUserContextProvider = (props: Props) => {
 
           if (orderPromise.status === 'fulfilled')
             setOrder(orderPromise.value.data);
-
           setIsloadingData(false);
         }
       );

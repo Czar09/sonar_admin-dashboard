@@ -16,11 +16,9 @@ const AdminMain = () => {
   const runFun = async () => {
     const order = async () => await getOrders().then((data) => {
       setOrdernum(data.length);
-      console.log("new order",data);
     });
     order();
     const user = async () => await getUsers().then((data) => {
-      console.log(data);
       setUserlength(data.length);
       // setUsernum(data);
     });
@@ -39,8 +37,9 @@ const AdminMain = () => {
   return (
     <>
       <div className='flex items-center justify-around md:mt-2 py-2 px-2 '>
-        <div className='lg:px-14 w-full md:px-10 px-1 '>
+        <div className='lg:px-14 w-full md:px-10 px-1 space-y-2'>
           <button className='w-full border border-[gainsboro] lg:px-14 md:px-10 px-1 py-2  rounded-full'>Add Products</button>
+          <button onClick={signOut} className='w-full border bg-red-500 border-[gainsboro] lg:px-14 md:px-10 px-1 py-2  rounded-full'>Sign Out</button>
         </div>
         <div className='lg:px-14 md:w-[15%] flex gap-3 '>
           <button className='w-full  py-2 rounded-full text-3xl'><MdNotifications /></button>
@@ -78,20 +77,7 @@ const AdminMain = () => {
                 </div>
               </div>
             </div>
-            <div className="">
-              <div className="flex rounded-lg h-full bg-gray-100 p-8 flex-col">
-                <div className="flex items-center mb-3">
-                  <div className="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500  flex-shrink-0">
-                    <i className='text-white'><VscFeedback /></i>
-                  </div>
-                  <h2 className="text-gray-900 text-lg title-font font-medium">Feedbacks from the users</h2>
-                </div>
-                <div className="flex-grow">
-                  <p className="leading-relaxed text-xs">Here are the total numbers of feedbacks you have recived from the user.</p>
-                  <h2 className='text-black font-semibold text-3xl mt-3'>12,000</h2>
-                </div>
-              </div>
-            </div>
+            
             <div className="">
               <div className="flex rounded-lg h-full bg-gray-100 p-8 flex-col">
                 <div className="flex items-center mb-3">

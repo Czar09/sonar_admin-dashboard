@@ -161,12 +161,10 @@ const OrdersComp = () => {
     const runFun = async () => {
         const order = async () => await getOrders().then((data) => {
             setOrdernum(data.length);
-            console.log("new order", data);
             setUsernum(data);
         });
         order();
         const user = async () => await getUsers().then((data) => {
-            console.log(data);
             setUserlength(data.length);
         });
         user();
@@ -177,7 +175,6 @@ const OrdersComp = () => {
     }, [])
 
     const updateOrderStatus = async (id: number, status: string) => {
-        console.log(id, status);
         const { error } = await supabaseAdmin
             .from('orders')
             .update({ status: status })
@@ -193,7 +190,7 @@ const OrdersComp = () => {
         .on(
             'postgres_changes',
             {
-                event: 'INSERT',
+                event: '*',
                 schema: 'public',
                 table: 'orders',
             },
