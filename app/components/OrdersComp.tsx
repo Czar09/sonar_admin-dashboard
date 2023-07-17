@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import { BiLinkExternal } from 'react-icons/bi'
 import Link from 'next/link'
 import { GetServerSidePropsContext } from 'next'
-import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
+// import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { getOrders, getUsers, supabaseAdmin } from '@/utils/supabase-admin'
 const orders = [
     {
