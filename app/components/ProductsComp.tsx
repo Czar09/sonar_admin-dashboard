@@ -235,11 +235,11 @@ const ProductsComp = () => {
                                         <p className="leading-relaxed text-base">Remaining Quantity: {prod.quantity}</p>
                                         <div className='flex'>
                                             <input type='number' value={addquantity} onChange={(e) => { handleUpdate(e, prod?.id) }} required={true} className='h-8 p-2 mr-2 w-14' ></input>
-                                            <button className='flex bg-[#2ae656]  rounded-md p-2 hover:bg-opacity-100 text-black font-bold text-xs' onClick={() => updateQuantity(Number(prod?.quantity) + addquantity, prod?.id)}>Add Quantity </button>
+                                            <button className='flex bg-[#2ae656]  rounded-md p-2 hover:bg-opacity-100 text-black font-bold text-xs' onClick={() => updateQuantity(Number(prod?.quantity) + Number(addquantity), prod?.id)}>Add Quantity </button>
                                         </div>
                                         <div className='flex'>
                                             <input name={prod?.name} type='number' value={subtractedquantity} onChange={(e) => { handleUpdate2(e, prod?.id) }} required={true} className='h-8 p-2 mr-2 w-14' ></input>
-                                            <button className='flex bg-[#e1372b]  rounded-md p-2 hover:bg-opacity-100 text-black font-bold text-xs' onClick={() => updateQuantity(Number(prod?.quantity) - subtractedquantity, prod?.id)}>Subtract Quantity </button>
+                                            <button className='flex bg-[#e1372b]  rounded-md p-2 hover:bg-opacity-100 text-black font-bold text-xs' onClick={() => updateQuantity(Number(prod?.quantity) - Number(subtractedquantity), prod?.id)}>Subtract Quantity </button>
                                         </div>
                                     </div>
                                 </div>
