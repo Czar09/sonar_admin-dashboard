@@ -25,12 +25,7 @@ const Sidebar = () => {
                         Orders
                     </div>
                     </Link>
-                    <Link className='' href="/sales">
-                        <div className='flex justify-start gap-3 hover:bg-indigo-500 hover:text-white rounded-lg cursor-pointer transition-all duration-300 mt-2 py-3 px-4 text-black font-light'>
-                        <i className='text-2xl'><FcSalesPerformance/></i>
-                        Sales
-                    </div>
-                    </Link>
+                
                     <Link className='' href="/products">
                         <div className='flex justify-start gap-3 hover:bg-indigo-500 hover:text-white rounded-lg cursor-pointer transition-all duration-300 mt-2 py-3 px-4 text-black font-light'>
                         <i className='text-2xl'><RiProductHuntLine/></i>

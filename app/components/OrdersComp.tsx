@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import { BiLinkExternal } from 'react-icons/bi'
 import Link from 'next/link'
 import { GetServerSidePropsContext } from 'next'
-import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
+// import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { getOrders, getUsers, supabaseAdmin } from '@/utils/supabase-admin'
 const orders = [
     {
@@ -251,30 +251,5 @@ const OrdersComp = () => {
 
 export default OrdersComp
 
-
-
-
-export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
-    // Create authenticated Supabase Client
-    const supabase = createServerSupabaseClient(ctx);
-    // Check if we have a session
-    const {
-        data: { session }
-    } = await supabase.auth.getSession();
-
-    if (session)
-        return {
-            redirect: {
-                destination: '/',
-                permanent: false
-            }
-        };
-
-    return {
-        props: {
-            initialSession: session,
-        }
-    };
-}
 
 
