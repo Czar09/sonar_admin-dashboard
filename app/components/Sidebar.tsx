@@ -1,7 +1,6 @@
 import React from 'react'
 import {MdOutlineAdminPanelSettings} from 'react-icons/md'
 import {RiListOrdered, RiProductHuntLine} from 'react-icons/ri'
-import {FcSalesPerformance} from 'react-icons/fc'
 import {SiFuturelearn} from 'react-icons/si'
 import Link from 'next/link'
 const Sidebar = () => {

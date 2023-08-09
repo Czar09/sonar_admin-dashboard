@@ -32,6 +32,7 @@ const AdminMain = () => {
   const supabase = useSupabaseClient();
   const signOut = async () => {
     await supabase.auth.signOut();
+    location.reload();
   };
 
   return (
