@@ -4,7 +4,7 @@ import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
 
 export default function Home() {
   return (
-    <main className="p-4">
+    <main className="">
       <AdminDash />
     </main>
   )
