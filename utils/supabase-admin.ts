@@ -63,6 +63,17 @@ const getSellers = async () => {
   }
   return data;
 }
+const getWholeSellers = async () => {
+  const { data, error } = await supabaseAdmin
+  .from('users')
+  .select('*')
+  .eq('role', 'wholeseller')
+  if (error || !data) {
+    throw error || new Error('No user found');
+  }
+  return data;
+}
+
 const getQuantity = async (id: number) => {
   const { data, error } = await supabaseAdmin
     .from('products')
@@ -254,6 +265,7 @@ export {
   getQuantity,
   getOrders,
   getProducts,
-  getSellers
+  getSellers,
+  getWholeSellers,  
   // manageSubscriptionStatusChange
 };

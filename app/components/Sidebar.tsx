@@ -3,7 +3,6 @@ import React from 'react'
 import { MdOutlineAdminPanelSettings } from 'react-icons/md'
 import { RiListOrdered, RiProductHuntLine, RiPassportFill, RiPriceTag3Fill } from 'react-icons/ri'
 import { PiMoneyBold } from 'react-icons/pi'
-import { SiFuturelearn } from 'react-icons/si'
 import Link from 'next/link'
 import { useUser } from '@/utils/useUser'
 const Sidebar = () => {
@@ -43,10 +42,16 @@ const Sidebar = () => {
                                     Sellers
                                 </div>
                             </Link>
-                            <Link className='' href="/sellerRevenue">
+                            <Link className='' href="/wholesalers">
+                                <div className='flex justify-start gap-3 hover:bg-indigo-500 hover:text-white rounded-lg cursor-pointer transition-all duration-300 mt-2 py-3 px-4 text-black font-light'>
+                                    <i className='text-2xl'><RiPassportFill /></i>
+                                    WholeSalers
+                                </div>
+                            </Link>
+                            <Link className='' href="/wholesaleOrders">
                                 <div className='flex justify-start gap-3 hover:bg-indigo-500 hover:text-white rounded-lg cursor-pointer transition-all duration-300 mt-2 py-3 px-4 text-black font-light'>
                                     <i className='text-2xl'><PiMoneyBold /></i>
-                                    Seller Revenue
+                                    WholeSale Orders
                                 </div>
                             </Link>
                             <Link className='' href="/wholesalePrice">
