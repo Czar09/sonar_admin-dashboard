@@ -4,6 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Link from 'next/link';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { useRouter } from 'next/navigation';
 
 type Props = {
 }
