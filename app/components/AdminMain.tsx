@@ -4,11 +4,13 @@ import { RxAvatar } from 'react-icons/rx'
 import { AiOutlineOrderedList } from 'react-icons/ai'
 import { BiUserCheck } from 'react-icons/bi'
 import { GiExpense } from 'react-icons/gi'
-import { VscFeedback } from 'react-icons/vsc'
+import { useRouter } from 'next/navigation'
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { getOrders, getUsers } from '@/utils/supabase-admin'
 
 const AdminMain = () => {
+
+  const router = useRouter();
   const [ordernum, setOrdernum] = React.useState(0);
   const [usernum, setUsernum] = React.useState([{}]);
   const [userlength, setUserlength] = React.useState(0);
@@ -39,7 +41,7 @@ const AdminMain = () => {
     <>
       <div className='flex items-center justify-around md:mt-2 py-2 px-2 '>
         <div className='lg:px-14 w-full md:px-10 px-1 space-y-2'>
-          <button className='w-full border border-[gainsboro] lg:px-14 md:px-10 px-1 py-2  rounded-full'>Add Products</button>
+          <button className='w-full border border-[gainsboro] lg:px-14 md:px-10 px-1 py-2  rounded-full ' onClick={()=>{router.push('/add-products')}}>Add Products</button>
           <button onClick={signOut} className='w-full border bg-red-500 border-[gainsboro] lg:px-14 md:px-10 px-1 py-2  rounded-full'>Sign Out</button>
         </div>
         <div className='lg:px-14 md:w-[15%] flex gap-3 '>
