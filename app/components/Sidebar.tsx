@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { useUser } from '@/utils/useUser'
 const Sidebar = () => {
 
-    const { userDetails } = useUser();
+    const { isLoading, userDetails } = useUser();
     return (
         <>
             <div className='hidden md:inline'>
@@ -15,7 +15,7 @@ const Sidebar = () => {
                     <i className='text-black text-4xl'><MdOutlineAdminPanelSettings /></i>
                     <h2 className='text-black'>{userDetails?.role} DASHBOARD</h2>
                 </div>
-                {userDetails?.role == 'superAdmin' ?
+                {isLoading ? <div>Loading</div> : userDetails?.role == 'superAdmin' ?
                     (
                         <div className='flex flex-col'>
                             <Link className='' href="/admin">
@@ -48,41 +48,93 @@ const Sidebar = () => {
                                     WholeSalers
                                 </div>
                             </Link>
-                            <Link className='' href="/wholesaleOrders">
+                            <Link className='' href="/wholesaleorders">
                                 <div className='flex justify-start gap-3 hover:bg-indigo-500 hover:text-white rounded-lg cursor-pointer transition-all duration-300 mt-2 py-3 px-4 text-black font-light'>
                                     <i className='text-2xl'><PiMoneyBold /></i>
                                     WholeSale Orders
                                 </div>
                             </Link>
-                            <Link className='' href="/wholesalePrice">
+                            <Link className='' href="/wholesaleprice">
                                 <div className='flex justify-start gap-3 hover:bg-indigo-500 hover:text-white rounded-lg cursor-pointer transition-all duration-300 mt-2 py-3 px-4 text-black font-light'>
                                     <i className='text-2xl'><RiPriceTag3Fill /></i>
                                     WholeSale Prices
                                 </div>
                             </Link>
-
+                            <Link className='' href="/sellerprice">
+                                <div className='flex justify-start gap-3 hover:bg-indigo-500 hover:text-white rounded-lg cursor-pointer transition-all duration-300 mt-2 py-3 px-4 text-black font-light'>
+                                    <i className='text-2xl'><RiPriceTag3Fill /></i>
+                                    Seller Prices
+                                </div>
+                            </Link>
                         </div>
-                    ) : (
+                    ) : userDetails?.role=='seller' ?
+                    (
                         <div className='flex flex-col'>
-                            <Link className='' href="/admin">
-                                <div className='flex justify-start gap-3 hover:bg-indigo-500 hover:text-white rounded-lg cursor-pointer transition-all duration-300 mt-2 py-3 px-4 text-black font-light'>
-                                    <i className='text-2xl'><MdOutlineAdminPanelSettings /></i>
-                                    Home
-                                </div>
-                            </Link>
-                            <Link className='' href="/orders">
-                                <div className='flex justify-start gap-3 hover:bg-indigo-500 hover:text-white rounded-lg cursor-pointer transition-all duration-300 mt-2 py-3 px-4 text-black font-light'>
-                                    <i className='text-2xl'><RiListOrdered /></i>
-                                    Orders
-                                </div>
-                            </Link>
-                            <Link className='' href="/products">
-                                <div className='flex justify-start gap-3 hover:bg-indigo-500 hover:text-white rounded-lg cursor-pointer transition-all duration-300 mt-2 py-3 px-4 text-black font-light'>
-                                    <i className='text-2xl'><RiProductHuntLine /></i>
-                                    Products
-                                </div>
-                            </Link>
-                        </div>
+                        <Link className='' href="/admin">
+                            <div className='flex justify-start gap-3 hover:bg-indigo-500 hover:text-white rounded-lg cursor-pointer transition-all duration-300 mt-2 py-3 px-4 text-black font-light'>
+                                <i className='text-2xl'><MdOutlineAdminPanelSettings /></i>
+                                Home
+                            </div>
+                        </Link>
+                        {/* <Link className='' href="/orders">
+                            <div className='flex justify-start gap-3 hover:bg-indigo-500 hover:text-white rounded-lg cursor-pointer transition-all duration-300 mt-2 py-3 px-4 text-black font-light'>
+                                <i className='text-2xl'><RiListOrdered /></i>
+                                Live Orders
+                            </div>
+                        </Link> */}
+                        <Link className='' href="/products">
+                            <div className='flex justify-start gap-3 hover:bg-indigo-500 hover:text-white rounded-lg cursor-pointer transition-all duration-300 mt-2 py-3 px-4 text-black font-light'>
+                                <i className='text-2xl'><RiProductHuntLine /></i>
+                                Products
+                            </div>
+                        </Link>
+                        <Link className='' href="/wholesaleorders">
+                            <div className='flex justify-start gap-3 hover:bg-indigo-500 hover:text-white rounded-lg cursor-pointer transition-all duration-300 mt-2 py-3 px-4 text-black font-light'>
+                                <i className='text-2xl'><PiMoneyBold /></i>
+                                WholeSale Orders
+                            </div>
+                        </Link>
+                        <Link className='' href="/wholesaleprice">
+                            <div className='flex justify-start gap-3 hover:bg-indigo-500 hover:text-white rounded-lg cursor-pointer transition-all duration-300 mt-2 py-3 px-4 text-black font-light'>
+                                <i className='text-2xl'><RiPriceTag3Fill /></i>
+                                WholeSale Prices
+                            </div>
+                        </Link>
+                        <Link className='' href="/sellerprice">
+                            <div className='flex justify-start gap-3 hover:bg-indigo-500 hover:text-white rounded-lg cursor-pointer transition-all duration-300 mt-2 py-3 px-4 text-black font-light'>
+                                <i className='text-2xl'><RiPriceTag3Fill /></i>
+                                Seller Prices
+                            </div>
+                        </Link>
+                    </div>
+                    ) :  
+                    (
+                        <div className='flex flex-col'>
+                        <Link className='' href="/admin">
+                            <div className='flex justify-start gap-3 hover:bg-indigo-500 hover:text-white rounded-lg cursor-pointer transition-all duration-300 mt-2 py-3 px-4 text-black font-light'>
+                                <i className='text-2xl'><MdOutlineAdminPanelSettings /></i>
+                                Home
+                            </div>
+                        </Link>
+                        <Link className='' href="/products">
+                            <div className='flex justify-start gap-3 hover:bg-indigo-500 hover:text-white rounded-lg cursor-pointer transition-all duration-300 mt-2 py-3 px-4 text-black font-light'>
+                                <i className='text-2xl'><RiProductHuntLine /></i>
+                                Products
+                            </div>
+                        </Link>
+                        <Link className='' href="/wholesaleorders">
+                            <div className='flex justify-start gap-3 hover:bg-indigo-500 hover:text-white rounded-lg cursor-pointer transition-all duration-300 mt-2 py-3 px-4 text-black font-light'>
+                                <i className='text-2xl'><PiMoneyBold /></i>
+                                WholeSale Orders
+                            </div>
+                        </Link>
+                        <Link className='' href="/yourwholesaleprice">
+                            <div className='flex justify-start gap-3 hover:bg-indigo-500 hover:text-white rounded-lg cursor-pointer transition-all duration-300 mt-2 py-3 px-4 text-black font-light'>
+                                <i className='text-2xl'><RiPriceTag3Fill /></i>
+                               Your WholeSale Prices
+                            </div>
+                        </Link>
+                    </div>
                     )}
 
             </div>

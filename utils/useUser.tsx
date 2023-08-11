@@ -37,7 +37,7 @@ export const MyUserContextProvider = (props: Props) => {
 
   const getUserDetails = () => supabase.from('users').select('*').single();
   const getOrders = () => supabase
-    .from('orders')
+    .from('wholesaleorders')
     .select('*');
     
   useEffect(() => {

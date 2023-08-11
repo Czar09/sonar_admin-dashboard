@@ -2,8 +2,6 @@
 import { getProducts, getSellers, getWholeSellers, supabaseAdmin } from '@/utils/supabase-admin';
 import React, { useEffect } from 'react'
 
-
-
 export type Seller = {
     [x: string]: any;
 }

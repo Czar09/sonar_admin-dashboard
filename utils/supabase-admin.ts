@@ -55,9 +55,9 @@ const getUsers = async () => {
 };
 const getSellers = async () => {
   const { data, error } = await supabaseAdmin
-  .from('users')
-  .select('*')
-  .eq('role', 'seller')
+    .from('users')
+    .select('*')
+    .eq('role', 'seller')
   if (error || !data) {
     throw error || new Error('No user found');
   }
@@ -65,9 +65,9 @@ const getSellers = async () => {
 }
 const getWholeSellers = async () => {
   const { data, error } = await supabaseAdmin
-  .from('users')
-  .select('*')
-  .eq('role', 'wholeseller')
+    .from('users')
+    .select('*')
+    .eq('role', 'wholesaler')
   if (error || !data) {
     throw error || new Error('No user found');
   }
@@ -104,8 +104,77 @@ const getOrders = async () => {
   return data;
 }
 
+const getWholeSaleOrders = async () => {
+  const { data, error } = await supabaseAdmin
+    .from('wholesaleorders')
+    .select(`
+      *,
+      seller:users (
+        id,
+        email,
+        full_name,
+        phone_number
+      ),
+      products(
+        id, 
+        name
+      ),
+      wholesale_products_price(
+        wholesaler_id,
+        quantity,
+        price,
+       wholesaler:users(
+          full_name, email, phone_number
+        )
+      )
+    `)
+    .order('order_date', { ascending: false })
+  if (error || !data) {
+    throw error || new Error('No product found');
+  }
+  return data;
+}
+
+const getWholeSalePrice = async () => {
+  const { data, error } = await supabaseAdmin
+    .from('wholesale_products_price')
+    .select(`*,
+  users(
+    full_name, email, phone_number
+  ),
+  products(
+    id,
+    name
+  )
+  `)
+    .order('wholesaler_id', { ascending: true })
+  if (error || !data) {
+    throw error || new Error('No product found');
+  }
+  return data;
+}
+
+const getSellerPrice = async () => {
+  const { data, error } = await supabaseAdmin
+    .from('seller_products_price')
+    .select(`*,
+  users(
+    full_name, email, phone_number
+  ),
+  products(
+    id,
+    name
+  )
+  `)
+    .order('product_id', { ascending: true })
+  if (error || !data) {
+    throw error || new Error('No product found');
+  }
+  return data;
+}
+
 const getProducts = async () => {
-  const {data, error} = await supabaseAdmin
+  const { data, error } = await supabaseAdmin
     .from('products')
     .select('*')
     .order('quantity', { ascending: true })
@@ -161,102 +230,6 @@ const addSubscription = async (
   return;
 }
 
-
-/**
- * Copies the billing details from the payment method to the customer object.
- */
-// const copyBillingDetailsToCustomer = async (
-//   uuid: string,
-//   payment_method: Stripe.PaymentMethod
-// ) => {
-//   //Todo: check this assertion
-//   const customer = payment_method.customer as string;
-//   const { name, phone, address } = payment_method.billing_details;
-//   if (!name || !phone || !address) return;
-//   //@ts-ignore
-//   await stripe.customers.update(customer, { name, phone, address });
-//   const { error } = await supabaseAdmin
-//     .from('users')
-//     .update({
-//       billing_address: { ...address },
-//       payment_method: { ...payment_method[payment_method.type] }
-//     })
-//     .eq('id', uuid);
-//   if (error) throw error;
-// };
-
-// const manageSubscriptionStatusChange = async (
-//   subscriptionId: string,
-//   customerId: string,
-//   createAction = false
-// ) => {
-//   // Get customer's UUID from mapping table.
-//   const { data: customerData, error: noCustomerError } = await supabaseAdmin
-//     .from('customers')
-//     .select('id')
-//     .eq('stripe_customer_id', customerId)
-//     .single();
-//   if (noCustomerError) throw noCustomerError;
-
-//   const { id: uuid } = customerData!;
-
-//   const subscription = await stripe.subscriptions.retrieve(subscriptionId, {
-//     expand: ['default_payment_method']
-//   });
-//   // Upsert the latest status of the subscription object.
-//   const subscriptionData: Database['public']['Tables']['subscriptions']['Insert'] =
-//   {
-//     id: subscription.id,
-//     user_id: uuid,
-//     metadata: subscription.metadata,
-//     status: subscription.status,
-//     price_id: subscription.items.data[0].price.id,
-//     //TODO check quantity on subscription
-//     // @ts-ignore
-//     quantity: subscription.quantity,
-//     cancel_at_period_end: subscription.cancel_at_period_end,
-//     cancel_at: subscription.cancel_at
-//       ? toDateTime(subscription.cancel_at).toISOString()
-//       : null,
-//     canceled_at: subscription.canceled_at
-//       ? toDateTime(subscription.canceled_at).toISOString()
-//       : null,
-//     current_period_start: toDateTime(
-//       subscription.current_period_start
-//     ).toISOString(),
-//     current_period_end: toDateTime(
-//       subscription.current_period_end
-//     ).toISOString(),
-//     created: toDateTime(subscription.created).toISOString(),
-//     ended_at: subscription.ended_at
-//       ? toDateTime(subscription.ended_at).toISOString()
-//       : null,
-//     trial_start: subscription.trial_start
-//       ? toDateTime(subscription.trial_start).toISOString()
-//       : null,
-//     trial_end: subscription.trial_end
-//       ? toDateTime(subscription.trial_end).toISOString()
-//       : null
-//   };
-
-//   const { error } = await supabaseAdmin
-//     .from('subscriptions')
-//     .upsert([subscriptionData]);
-//   if (error) throw error;
-//   console.log(
-//     `Inserted/updated subscription [${subscription.id}] for user [${uuid}]`
-//   );
-
-//   // For a new subscription copy the billing details to the customer object.
-//   // NOTE: This is a costly operation and should happen at the very end.
-//   if (createAction && subscription.default_payment_method && uuid)
-//     //@ts-ignore
-//     await copyBillingDetailsToCustomer(
-//       uuid,
-//       subscription.default_payment_method as Stripe.PaymentMethod
-//     );
-// };
-
 export {
   // upsertProductRecord,
   addSubscription,
@@ -266,6 +239,9 @@ export {
   getOrders,
   getProducts,
   getSellers,
-  getWholeSellers,  
+  getWholeSellers,
+  getWholeSaleOrders,
+  getWholeSalePrice,
+  getSellerPrice
   // manageSubscriptionStatusChange
 };
