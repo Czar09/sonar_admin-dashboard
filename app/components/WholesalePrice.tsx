@@ -64,7 +64,6 @@ const WholeSalePrice = () => {
             .eq('id', id);
         setPrice({});
         alert("Price Updated Successfully with price of ₹" + price + " for product "+proddata?.find((prod) => prod.id === id)?.products?.name);
-
     }
     const makeOrder = async (quantity: number, id: string, productId: number) => {
         const quantitycheck = Number(proddata?.find((prod) => prod.id === id)?.quantity);

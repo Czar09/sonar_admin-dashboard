@@ -1,12 +1,15 @@
 'use client'
 import { getProducts, getSellerPrice, getWholeSalePrice, supabaseAdmin } from '@/utils/supabase-admin';
+import { useUser } from '@/utils/useUser';
 import React, { useEffect } from 'react'
 
 const SellerPrice = () => {
     const [proddata, setProddata] = React.useState<{ [x: string]: any }[] | null>(null);
     const [addquantity, setAddquantity] = React.useState<{ [productId: number]: number }>({});
     const [subtractedquantity, setSubtractedquantity] = React.useState<{ [productId: number]: number }>({});
+    const [buyingquantity, setBuyingquantity] = React.useState<{ [productId: number]: number }>({});
     const [price, setPrice] = React.useState<{ [productId: number]: number }>({});
+    const { userDetails } = useUser();
 
     const runFun = async () => {
         const order = async () => await getSellerPrice().then((data) => {
@@ -36,6 +39,12 @@ const SellerPrice = () => {
             [productId]: quantity,
         }));
     };
+    const handleBuyingQuantity = (productId: string, quantity: number) => {
+        setBuyingquantity(prevBuyingQuantity => ({
+            ...prevBuyingQuantity,
+            [productId]: quantity,
+        }));
+    };
     const updateQuantity = async (quantity: number, id: string) => {
         const { error } = await supabaseAdmin
             .from('seller_products_price')
@@ -43,8 +52,40 @@ const SellerPrice = () => {
             .eq('id', id);
         setAddquantity({});
         setSubtractedquantity({});
+        alert("Quantity Updated Successfully with quantity of " + quantity + " for product " + proddata?.find((prod) => prod.id === id)?.products?.name);
     }
-    const channelC = supabaseAdmin
+    const updatePrice = async (price: number, id: string) => {
+        const { error } = await supabaseAdmin
+            .from('seller_products_price')
+            .update({ price: price })
+            .eq('id', id);
+        setPrice({});
+        alert("Price Updated Successfully with price of ₹" + price + " for product " + proddata?.find((prod) => prod.id === id)?.products?.name);
+    }
+    const makeOrder = async (quantity: number, id: string, productId: number) => {
+        const quantitycheck = Number(proddata?.find((prod) => prod.id === id)?.quantity);
+        if (quantitycheck < quantity || quantitycheck === 0) {
+            alert("You cannot buy more than the available quantity");
+            return;
+        }
+        const { data, error } = await supabaseAdmin
+            .from('sellerorders')
+            .insert([{
+                quantity: quantity,
+                prod_id: productId,
+                buyer_id: userDetails?.id,
+                order_date: Date.now(),
+                status: 'pending',
+                seller_productprice_id: id,
+                amount: quantity * Number(proddata?.find((prod) => prod.id === id)?.price)
+            }])
+        setBuyingquantity({});
+        // alert("quantity=", quantity, "id", id, "prodid=", productId, "price=", Number(proddata?.find((prod) => prod.id === id)?.price)*quantity);
+        alert("Order Placed Successfully with amount of ₹" + quantity * Number(proddata?.find((prod) => prod.id === id)?.price) + " for product " + proddata?.find((prod) => prod.id === id)?.products?.name);
+        updateQuantity(Number(proddata?.find((prod) => prod.id === id)?.quantity) - Number(quantity), id);
+        location.reload();
+    }
+    const channelE = supabaseAdmin
         .channel('table-db-changes')
         .on(
             'postgres_changes',
@@ -92,8 +133,13 @@ const SellerPrice = () => {
                                         </div>
                                         <p className="leading-relaxed text-base">Enter the price below to change</p>
                                         <div className='flex'>
-                                            <input key={prod.id} name={prod?.name} type='number' value={price[prod.id] || 0} onChange={(e) => { handlePriceChange(prod?.id, parseInt(e.target.value)) }} required={true} className='h-8 p-2 mr-2 w-14' ></input>
-                                            <button className='flex bg-[#f9ff45]  rounded-md p-2 hover:bg-opacity-100 text-black font-bold text-xs' onClick={() => alert('price changed')}>Change Price </button>
+                                            <input min="0" name={prod?.name} type='number' value={price[prod.id] || 0} onChange={(e) => { handlePriceChange(prod?.id, parseInt(e.target.value)) }} required={true} className='h-8 p-2 mr-2 w-14' ></input>
+                                            <button className='flex bg-[#f9ff45]  rounded-md p-2 hover:bg-opacity-100 text-black font-bold text-xs' onClick={() => updatePrice(Number(price[prod?.id]), prod?.id)}>Change Price </button>
+                                        </div>
+                                        <p className="leading-relaxed text-base font-bold">Enter how much quanity you want to buy</p>
+                                        <div className='flex'>
+                                            <input min="0" name={prod?.name} type='number' value={buyingquantity[prod.id] || 0} onChange={(e) => { handleBuyingQuantity(prod?.id, parseInt(e.target.value)) }} required={true} className='h-8 p-2 mr-2 w-14' ></input>
+                                            <button className='flex bg-[#4273e8]  rounded-md p-2 hover:bg-opacity-100 text-black font-bold text-xs' onClick={() => makeOrder(buyingquantity[prod?.id],prod?.id, prod?.products?.id)}>Buy Now! </button>
                                         </div>
                                     </div>
                                 </div>
