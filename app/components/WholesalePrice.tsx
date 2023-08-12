@@ -143,7 +143,7 @@ const WholeSalePrice = () => {
                                                 <h2 className="text-lg text-gray-900 font-medium title-font mb-4">Product Price: ₹{prod.price}</h2>
                                                 <p className="leading-relaxed text-base">Remaining Quantity: {prod.quantity}</p>
                                                 {
-                                                    userDetails?.role == 'admin' || userDetails?.role == 'superAdmin' || userDetails?.role == 'wholesaler' ?
+                                                    userDetails?.role == 'superAdmin' || userDetails?.role == 'wholesaler' ?
                                                         (
                                                             <>
                                                                 <div className='flex'>

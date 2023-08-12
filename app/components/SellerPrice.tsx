@@ -112,11 +112,6 @@ const SellerPrice = () => {
     return (
         <div className='px-4 lg:px-10 py-8'>
             <section className="text-gray-600 body-font">
-                <div className='p-3 m-2'>
-                    <button>
-                        Add Product
-                    </button>
-                </div>
                 {isLoading ? (
                     <div className='flex justify-center items-center'>
                         <div className='animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900'></div>
@@ -146,19 +141,24 @@ const SellerPrice = () => {
                                                 <h2 className="text-lg text-gray-900 font-medium title-font mb-4">Product Name: {prod.products.name}</h2>
                                                 <h2 className="text-lg text-gray-900 font-medium title-font mb-4">Product Price: ₹{prod.price}</h2>
                                                 <p className="leading-relaxed text-base">Remaining Quantity: {prod.quantity}</p>
-                                                <div className='flex'>
-                                                    <input min="0" defaultValue={0} type='number' value={addquantity[prod.id] || 0} onChange={(e) => { handleAddQuantity(prod?.id, parseInt(e.target.value)) }} required={true} className='h-8 p-2 mr-2 w-14' ></input>
-                                                    <button className='flex bg-[#2ae656]  rounded-md p-2 hover:bg-opacity-100 text-black font-bold text-xs' onClick={() => updateQuantity(Number(prod?.quantity) + Number(addquantity[prod?.id]), prod?.id)}>Add Quantity </button>
-                                                </div>
-                                                <div className='flex'>
-                                                    <input min="0" defaultValue={0} name={prod?.name} type='number' value={subtractedquantity[prod.id] || 0} onChange={(e) => { handleSubQuantity(prod?.id, parseInt(e.target.value)) }} required={true} className='h-8 p-2 mr-2 w-14' ></input>
-                                                    <button className='flex bg-[#e1372b]  rounded-md p-2 hover:bg-opacity-100 text-black font-bold text-xs' onClick={() => updateQuantity(Number(prod?.quantity) - Number(subtractedquantity[prod?.id]), prod?.id)}>Subtract Quantity </button>
-                                                </div>
-                                                <p className="leading-relaxed text-base">Enter the price below to change</p>
-                                                <div className='flex'>
-                                                    <input min="0" name={prod?.name} type='number' value={price[prod.id] || 0} onChange={(e) => { handlePriceChange(prod?.id, parseInt(e.target.value)) }} required={true} className='h-8 p-2 mr-2 w-14' ></input>
-                                                    <button className='flex bg-[#f9ff45]  rounded-md p-2 hover:bg-opacity-100 text-black font-bold text-xs' onClick={() => updatePrice(Number(price[prod?.id]), prod?.id)}>Change Price </button>
-                                                </div>
+                                                {userDetails?.role == 'seller' || userDetails?.role == 'superAdmin' ?
+                                                    <>
+                                                        <div className='flex'>
+                                                            <input min="0" defaultValue={0} type='number' value={addquantity[prod.id] || 0} onChange={(e) => { handleAddQuantity(prod?.id, parseInt(e.target.value)) }} required={true} className='h-8 p-2 mr-2 w-14' ></input>
+                                                            <button className='flex bg-[#2ae656]  rounded-md p-2 hover:bg-opacity-100 text-black font-bold text-xs' onClick={() => updateQuantity(Number(prod?.quantity) + Number(addquantity[prod?.id]), prod?.id)}>Add Quantity </button>
+                                                        </div>
+                                                        <div className='flex'>
+                                                            <input min="0" defaultValue={0} name={prod?.name} type='number' value={subtractedquantity[prod.id] || 0} onChange={(e) => { handleSubQuantity(prod?.id, parseInt(e.target.value)) }} required={true} className='h-8 p-2 mr-2 w-14' ></input>
+                                                            <button className='flex bg-[#e1372b]  rounded-md p-2 hover:bg-opacity-100 text-black font-bold text-xs' onClick={() => updateQuantity(Number(prod?.quantity) - Number(subtractedquantity[prod?.id]), prod?.id)}>Subtract Quantity </button>
+                                                        </div>
+                                                        <p className="leading-relaxed text-base">Enter the price below to change</p>
+                                                        <div className='flex'>
+                                                            <input min="0" name={prod?.name} type='number' value={price[prod.id] || 0} onChange={(e) => { handlePriceChange(prod?.id, parseInt(e.target.value)) }} required={true} className='h-8 p-2 mr-2 w-14' ></input>
+                                                            <button className='flex bg-[#f9ff45]  rounded-md p-2 hover:bg-opacity-100 text-black font-bold text-xs' onClick={() => updatePrice(Number(price[prod?.id]), prod?.id)}>Change Price </button>
+                                                        </div>
+                                                    </> 
+                                                    : 
+                                                    null}
 
                                                 {
                                                     userDetails?.role == 'admin' || userDetails?.role == 'superAdmin' ?

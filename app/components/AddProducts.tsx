@@ -452,6 +452,8 @@ const AddProducts = () => {
       if(error){
         console.log(error);
       }
+
+      alert('Product Added Successfully');
     }
 
   return (

@@ -446,13 +446,15 @@ const AddProductsSeller = () => {
       .from('seller_products_price')
       .insert({
         product_id: prod_id,
-        wholesaler_id: userDetails?.id,
+        seller_id: userDetails?.id,
         price: price,
         quantity: quantity
       });
       if(error){
         console.log(error);
       }
+
+      alert("Product Price Added Successfully");
     }
 
   return (
