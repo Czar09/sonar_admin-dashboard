@@ -10,6 +10,8 @@ const SellerPrice = () => {
     const [subtractedquantity, setSubtractedquantity] = React.useState<{ [productId: number]: number }>({});
     const [buyingquantity, setBuyingquantity] = React.useState<{ [productId: number]: number }>({});
     const [price, setPrice] = React.useState<{ [productId: number]: number }>({});
+    let sellerId = '';
+    let productname = '';
     const { isLoading, userDetails } = useUser();
     const router = useRouter();
 
@@ -75,21 +77,49 @@ const SellerPrice = () => {
             return;
         }
         const { data, error } = await supabaseAdmin
-            .from('sellerorders')
-            .insert([{
-                quantity: quantity,
-                prod_id: productId,
-                buyer_id: userDetails?.id,
-                order_date: Date.now(),
-                status: 'pending',
-                seller_productprice_id: id,
-                amount: quantity * Number(proddata?.find((prod) => prod.id === id)?.price)
-            }])
-        setBuyingquantity({});
-        // alert("quantity=", quantity, "id", id, "prodid=", productId, "price=", Number(proddata?.find((prod) => prod.id === id)?.price)*quantity);
-        alert("Order Placed Successfully with amount of ₹" + quantity * Number(proddata?.find((prod) => prod.id === id)?.price) + " for product " + proddata?.find((prod) => prod.id === id)?.products?.name);
-        updateQuantity(Number(proddata?.find((prod) => prod.id === id)?.quantity) - Number(quantity), id);
-        location.reload();
+            .from('seller_products_price')
+            .select(`*, products(name)`)
+            .eq('id', id)
+            productname = data?.[0]?.products?.name;
+            sellerId = data?.[0]?.seller_id;
+
+        if (error) {
+            alert("Some error occured");
+            return;
+        }
+        else {
+            const { data, error } = await supabaseAdmin
+                .from('sellerorders_duplicate')
+                .insert([{
+                    quantity: quantity,
+                    prod_id: productId,
+                    buyer_id: userDetails?.id,
+                    order_date: Date.now(),
+                    status: 'pending',
+                    seller_productprice_id: id,
+                    amount: quantity * Number(proddata?.find((prod) => prod.id === id)?.price)
+                }])
+                if (error) {
+                    alert("Error in placing order");
+                }
+                else {
+                    console.log("order_date=", Date.now(), "prod_id=", id, "amount=", quantity * Number(proddata?.find((prod) => prod.id === id)?.price), "quantity=", quantity, "wholesaler_id=", sellerId);
+                    const { data, error } = await supabaseAdmin
+                        .from('seller_order')
+                        .insert({
+                            order_date: Date.now(),
+                            prod_id: id, 
+                            amount: quantity * Number(proddata?.find((prod) => prod.id === id)?.price),
+                            quantity: quantity,
+                            seller_id: sellerId,
+                            product_name: productname,
+                        })
+                }
+            setBuyingquantity({});
+            // alert("quantity=", quantity, "id", id, "prodid=", productId, "price=", Number(proddata?.find((prod) => prod.id === id)?.price)*quantity);
+            alert("Order Placed Successfully with amount of ₹" + quantity * Number(proddata?.find((prod) => prod.id === id)?.price) + " for product " + proddata?.find((prod) => prod.id === id)?.products?.name);
+            updateQuantity(Number(proddata?.find((prod) => prod.id === id)?.quantity) - Number(quantity), id);
+        }
     };
     const channelE = supabaseAdmin
         .channel('table-db-changes')
@@ -156,8 +186,8 @@ const SellerPrice = () => {
                                                             <input min="0" name={prod?.name} type='number' value={price[prod.id] || 0} onChange={(e) => { handlePriceChange(prod?.id, parseInt(e.target.value)) }} required={true} className='h-8 p-2 mr-2 w-14' ></input>
                                                             <button className='flex bg-[#f9ff45]  rounded-md p-2 hover:bg-opacity-100 text-black font-bold text-xs' onClick={() => updatePrice(Number(price[prod?.id]), prod?.id)}>Change Price </button>
                                                         </div>
-                                                    </> 
-                                                    : 
+                                                    </>
+                                                    :
                                                     null}
 
                                                 {

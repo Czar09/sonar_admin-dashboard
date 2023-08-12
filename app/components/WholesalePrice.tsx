@@ -11,6 +11,8 @@ const WholeSalePrice = () => {
     const [subtractedquantity, setSubtractedquantity] = React.useState<{ [productId: number]: number }>({});
     const [buyingquantity, setBuyingquantity] = React.useState<{ [productId: number]: number }>({});
     const [price, setPrice] = React.useState<{ [productId: number]: number }>({});
+    let sellerId = '';
+    let productname = '';
     const { isLoading, userDetails } = useUser();
     const router = useRouter();
 
@@ -67,6 +69,7 @@ const WholeSalePrice = () => {
         setPrice({});
         alert("Price Updated Successfully with price of ₹" + price + " for product " + proddata?.find((prod) => prod.id === id)?.products?.name);
     }
+
     const makeOrder = async (quantity: number, id: string, productId: number) => {
         const quantitycheck = Number(proddata?.find((prod) => prod.id === id)?.quantity);
         if (quantitycheck < quantity || quantitycheck === 0) {
@@ -74,21 +77,50 @@ const WholeSalePrice = () => {
             return;
         }
         const { data, error } = await supabaseAdmin
-            .from('wholesaleorders')
-            .insert([{
-                quantity: quantity,
-                prod_id: productId,
-                seller_id: userDetails?.id,
-                order_date: Date.now(),
-                status: 'pending',
-                wholesale_productprice_id: id,
-                amount: quantity * Number(proddata?.find((prod) => prod.id === id)?.price)
-            }])
-        setBuyingquantity({});
-        // alert("quantity=", quantity, "id", id, "prodid=", productId, "price=", Number(proddata?.find((prod) => prod.id === id)?.price)*quantity);
-        alert("Order Placed Successfully with amount of ₹" + quantity * Number(proddata?.find((prod) => prod.id === id)?.price) + " for product " + proddata?.find((prod) => prod.id === id)?.products?.name);
-        updateQuantity(Number(proddata?.find((prod) => prod.id === id)?.quantity) - Number(quantity), id);
-        location.reload();
+            .from('wholesale_products_price')
+            .select(`*, products(name)`)
+            .eq('id', id)
+        productname = data?.[0]?.products?.name;
+        sellerId = data?.[0]?.wholesaler_id;
+        if (error) {
+            console.log(error);
+            return;
+        }
+        else {
+            const { data, error } = await supabaseAdmin
+                .from('wholesaleorders_duplicate')
+                .insert([{
+                    quantity: quantity,
+                    prod_id: productId,
+                    seller_id: userDetails?.id,
+                    order_date: Date.now(),
+                    status: 'pending',
+                    wholesale_productprice_id: id,
+                    amount: quantity * Number(proddata?.find((prod) => prod.id === id)?.price)
+                }])
+            if (error) {
+                alert("Error in placing order");
+            }
+            else {
+
+                console.log("order_date=", Date.now(), "prod_id=", id, "amount=", quantity * Number(proddata?.find((prod) => prod.id === id)?.price), "quantity=", quantity, "wholesaler_id=", sellerId);
+                const { data, error } = await supabaseAdmin
+                    .from('wholesale_order')
+                    .insert({
+                        order_date: Date.now(),
+                        prod_id: id,
+                        amount: quantity * Number(proddata?.find((prod) => prod.id === id)?.price),
+                        quantity: quantity,
+                        wholesaler_id: sellerId,
+                        product_name: productname,
+                    })
+            }
+            setBuyingquantity({});
+
+            // alert("quantity=", quantity, "id", id, "prodid=", productId, "price=", Number(proddata?.find((prod) => prod.id === id)?.price)*quantity);
+            alert("Order Placed Successfully with amount of ₹" + quantity * Number(proddata?.find((prod) => prod.id === id)?.price) + " for product " + proddata?.find((prod) => prod.id === id)?.products?.name);
+            updateQuantity(Number(proddata?.find((prod) => prod.id === id)?.quantity) - Number(quantity), id);
+        }
 
     }
     const channelD = supabaseAdmin

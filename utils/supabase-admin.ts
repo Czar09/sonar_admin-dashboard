@@ -106,7 +106,7 @@ const getOrders = async () => {
 
 const getWholeSaleOrders = async () => {
   const { data, error } = await supabaseAdmin
-    .from('wholesaleorders')
+    .from('wholesaleorders_duplicate')
     .select(`
       *,
       seller:users (
@@ -131,6 +131,18 @@ const getWholeSaleOrders = async () => {
     .order('order_date', { ascending: false })
   if (error || !data) {
     throw error || new Error('No product found');
+  }
+  return data;
+}
+
+const getWholeSaleOrdersSpecific = async (id: string) => {
+
+  const{data, error} = await supabaseAdmin
+  .from('wholesale_order')
+  .select('*')
+  .eq('wholesaler_id', id)
+  if (error || !data) {
+    throw error || new Error('No user found');
   }
   return data;
 }
@@ -242,6 +254,6 @@ export {
   getWholeSellers,
   getWholeSaleOrders,
   getWholeSalePrice,
-  getSellerPrice
-  // manageSubscriptionStatusChange
+  getSellerPrice,
+  getWholeSaleOrdersSpecific
 };

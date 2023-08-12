@@ -1,175 +1,13 @@
 'use client'
 import { getProducts, supabaseAdmin } from '@/utils/supabase-admin';
+import { useUser } from '@/utils/useUser';
 import React, { useEffect } from 'react'
-
-const products = [
-    {
-        "product_name": "Thar",
-        "img": "https://images.news18.com/ibnlive/uploads/2020/08/1597473433_mahindra-thar-4x4-new-suv.jpg",
-        "price": "2,000,000",
-        "ratings": "4.5",
-        "bestseller": "false",
-        "product_disp": "Thar is a compact, four-wheel drive, off-road SUV manufactured by Indian automaker Mahindra."
-    },
-    {
-        "product_name": "Thar",
-        "img": "https://images.news18.com/ibnlive/uploads/2020/08/1597473433_mahindra-thar-4x4-new-suv.jpg",
-        "price": "2,000,000",
-        "ratings": "4.5",
-        "bestseller": "false",
-        "product_disp": "Thar is a compact, four-wheel drive, off-road SUV manufactured by Indian automaker Mahindra."
-    },
-    {
-        "product_name": "Thar",
-        "img": "https://images.news18.com/ibnlive/uploads/2020/08/1597473433_mahindra-thar-4x4-new-suv.jpg",
-        "price": "2,000,000",
-        "ratings": "4.5",
-        "bestseller": "false",
-        "product_disp": "Thar is a compact, four-wheel drive, off-road SUV manufactured by Indian automaker Mahindra."
-    },
-    {
-        "product_name": "Thar",
-        "img": "https://images.news18.com/ibnlive/uploads/2020/08/1597473433_mahindra-thar-4x4-new-suv.jpg",
-        "price": "2,000,000",
-        "ratings": "4.5",
-        "bestseller": "false",
-        "product_disp": "Thar is a compact, four-wheel drive, off-road SUV manufactured by Indian automaker Mahindra."
-    },
-    {
-        "product_name": "Thar",
-        "img": "https://images.news18.com/ibnlive/uploads/2020/08/1597473433_mahindra-thar-4x4-new-suv.jpg",
-        "price": "2,000,000",
-        "ratings": "4.5",
-        "bestseller": "false",
-        "product_disp": "Thar is a compact, four-wheel drive, off-road SUV manufactured by Indian automaker Mahindra."
-    },
-    {
-        "product_name": "Thar",
-        "img": "https://images.news18.com/ibnlive/uploads/2020/08/1597473433_mahindra-thar-4x4-new-suv.jpg",
-        "price": "2,000,000",
-        "ratings": "4.5",
-        "bestseller": "false",
-        "product_disp": "Thar is a compact, four-wheel drive, off-road SUV manufactured by Indian automaker Mahindra."
-    },
-    {
-        "product_name": "Thar",
-        "img": "https://images.news18.com/ibnlive/uploads/2020/08/1597473433_mahindra-thar-4x4-new-suv.jpg",
-        "price": "2,000,000",
-        "ratings": "4.5",
-        "bestseller": "false",
-        "product_disp": "Thar is a compact, four-wheel drive, off-road SUV manufactured by Indian automaker Mahindra."
-    },
-    {
-        "product_name": "Thar",
-        "img": "https://images.news18.com/ibnlive/uploads/2020/08/1597473433_mahindra-thar-4x4-new-suv.jpg",
-        "price": "2,000,000",
-        "ratings": "4.5",
-        "bestseller": "false",
-        "product_disp": "Thar is a compact, four-wheel drive, off-road SUV manufactured by Indian automaker Mahindra."
-    },
-    {
-        "product_name": "Thar",
-        "img": "https://images.news18.com/ibnlive/uploads/2020/08/1597473433_mahindra-thar-4x4-new-suv.jpg",
-        "price": "2,000,000",
-        "ratings": "4.5",
-        "bestseller": "false",
-        "product_disp": "Thar is a compact, four-wheel drive, off-road SUV manufactured by Indian automaker Mahindra."
-    },
-    {
-        "product_name": "Thar",
-        "img": "https://images.news18.com/ibnlive/uploads/2020/08/1597473433_mahindra-thar-4x4-new-suv.jpg",
-        "price": "2,000,000",
-        "ratings": "4.5",
-        "bestseller": "false",
-        "product_disp": "Thar is a compact, four-wheel drive, off-road SUV manufactured by Indian automaker Mahindra."
-    },
-    {
-        "product_name": "Thar",
-        "img": "https://images.news18.com/ibnlive/uploads/2020/08/1597473433_mahindra-thar-4x4-new-suv.jpg",
-        "price": "2,000,000",
-        "ratings": "4.5",
-        "bestseller": "false",
-        "product_disp": "Thar is a compact, four-wheel drive, off-road SUV manufactured by Indian automaker Mahindra."
-    },
-    {
-        "product_name": "Thar",
-        "img": "https://images.news18.com/ibnlive/uploads/2020/08/1597473433_mahindra-thar-4x4-new-suv.jpg",
-        "price": "2,000,000",
-        "ratings": "4.5",
-        "bestseller": "false",
-        "product_disp": "Thar is a compact, four-wheel drive, off-road SUV manufactured by Indian automaker Mahindra."
-    },
-    {
-        "product_name": "Thar",
-        "img": "https://images.news18.com/ibnlive/uploads/2020/08/1597473433_mahindra-thar-4x4-new-suv.jpg",
-        "price": "2,000,000",
-        "ratings": "4.5",
-        "bestseller": "false",
-        "product_disp": "Thar is a compact, four-wheel drive, off-road SUV manufactured by Indian automaker Mahindra."
-    },
-    {
-        "product_name": "Thar",
-        "img": "https://images.news18.com/ibnlive/uploads/2020/08/1597473433_mahindra-thar-4x4-new-suv.jpg",
-        "price": "2,000,000",
-        "ratings": "4.5",
-        "bestseller": "false",
-        "product_disp": "Thar is a compact, four-wheel drive, off-road SUV manufactured by Indian automaker Mahindra."
-    },
-    {
-        "product_name": "Thar",
-        "img": "https://images.news18.com/ibnlive/uploads/2020/08/1597473433_mahindra-thar-4x4-new-suv.jpg",
-        "price": "2,000,000",
-        "ratings": "4.5",
-        "bestseller": "false",
-        "product_disp": "Thar is a compact, four-wheel drive, off-road SUV manufactured by Indian automaker Mahindra."
-    },
-    {
-        "product_name": "Thar",
-        "img": "https://images.news18.com/ibnlive/uploads/2020/08/1597473433_mahindra-thar-4x4-new-suv.jpg",
-        "price": "2,000,000",
-        "ratings": "4.5",
-        "bestseller": "false",
-        "product_disp": "Thar is a compact, four-wheel drive, off-road SUV manufactured by Indian automaker Mahindra."
-    },
-    {
-        "product_name": "Thar",
-        "img": "https://images.news18.com/ibnlive/uploads/2020/08/1597473433_mahindra-thar-4x4-new-suv.jpg",
-        "price": "2,000,000",
-        "ratings": "4.5",
-        "bestseller": "false",
-        "product_disp": "Thar is a compact, four-wheel drive, off-road SUV manufactured by Indian automaker Mahindra."
-    },
-    {
-        "product_name": "Thar",
-        "img": "https://images.news18.com/ibnlive/uploads/2020/08/1597473433_mahindra-thar-4x4-new-suv.jpg",
-        "price": "2,000,000",
-        "ratings": "4.5",
-        "bestseller": "false",
-        "product_disp": "Thar is a compact, four-wheel drive, off-road SUV manufactured by Indian automaker Mahindra."
-    },
-    {
-        "product_name": "Thar",
-        "img": "https://images.news18.com/ibnlive/uploads/2020/08/1597473433_mahindra-thar-4x4-new-suv.jpg",
-        "price": "2,000,000",
-        "ratings": "4.5",
-        "bestseller": "false",
-        "product_disp": "Thar is a compact, four-wheel drive, off-road SUV manufactured by Indian automaker Mahindra."
-    },
-    {
-        "product_name": "Thar",
-        "img": "https://images.news18.com/ibnlive/uploads/2020/08/1597473433_mahindra-thar-4x4-new-suv.jpg",
-        "price": "2,000,000",
-        "ratings": "4.5",
-        "bestseller": "false",
-        "product_disp": "Thar is a compact, four-wheel drive, off-road SUV manufactured by Indian automaker Mahindra."
-    },
-]
 
 const ProductsComp = () => {
     const [proddata, setProddata] = React.useState<{ [x: string]: any }[] | null>(null);
     const [addquantity, setAddquantity] = React.useState<number>(0);
     const [subtractedquantity, setSubtractedquantity] = React.useState<number>(0);
-
+    const { userDetails, isLoading } = useUser();
     const runFun = async () => {
         const order = async () => await getProducts().then((data) => {
             setProddata(data);
@@ -229,18 +67,20 @@ const ProductsComp = () => {
                             proddata?.map(prod => (
                                 <div key={prod?.id} className=" p-2">
                                     <div className={`${prod.quantity < 10 ? `bg-red-300` : `bg-gray-300`} p-3 rounded-lg space-y-2`}>
-
-
                                         <h2 className="text-lg text-gray-900 font-medium title-font mb-4">{prod.name} - <small>₹{prod.price}</small></h2>
                                         <p className="leading-relaxed text-base">Remaining Quantity: {prod.quantity}</p>
-                                        <div className='flex'>
-                                            <input type='number' value={addquantity} onChange={(e) => { handleUpdate(e, prod?.id) }} required={true} className='h-8 p-2 mr-2 w-14' ></input>
-                                            <button className='flex bg-[#2ae656]  rounded-md p-2 hover:bg-opacity-100 text-black font-bold text-xs' onClick={() => updateQuantity(Number(prod?.quantity) + Number(addquantity), prod?.id)}>Add Quantity </button>
-                                        </div>
-                                        <div className='flex'>
-                                            <input name={prod?.name} type='number' value={subtractedquantity} onChange={(e) => { handleUpdate2(e, prod?.id) }} required={true} className='h-8 p-2 mr-2 w-14' ></input>
-                                            <button className='flex bg-[#e1372b]  rounded-md p-2 hover:bg-opacity-100 text-black font-bold text-xs' onClick={() => updateQuantity(Number(prod?.quantity) - Number(subtractedquantity), prod?.id)}>Subtract Quantity </button>
-                                        </div>
+                                        {userDetails?.role == 'admin' || userDetails?.role == 'superAdmin' ?
+                                            <>
+                                                <div className='flex'>
+                                                    <input type='number' value={addquantity} onChange={(e) => { handleUpdate(e, prod?.id) }} required={true} className='h-8 p-2 mr-2 w-14' ></input>
+                                                    <button className='flex bg-[#2ae656]  rounded-md p-2 hover:bg-opacity-100 text-black font-bold text-xs' onClick={() => updateQuantity(Number(prod?.quantity) + Number(addquantity), prod?.id)}>Add Quantity </button>
+                                                </div>
+                                                <div className='flex'>
+                                                    <input name={prod?.name} type='number' value={subtractedquantity} onChange={(e) => { handleUpdate2(e, prod?.id) }} required={true} className='h-8 p-2 mr-2 w-14' ></input>
+                                                    <button className='flex bg-[#e1372b]  rounded-md p-2 hover:bg-opacity-100 text-black font-bold text-xs' onClick={() => updateQuantity(Number(prod?.quantity) - Number(subtractedquantity), prod?.id)}>Subtract Quantity </button>
+                                                </div>
+                                            </> : 
+                                            null}
                                     </div>
                                 </div>
                             ))

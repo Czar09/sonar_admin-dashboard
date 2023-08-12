@@ -37,9 +37,14 @@ export const MyUserContextProvider = (props: Props) => {
 
   const getUserDetails = () => supabase.from('users').select('*').single();
   const getOrders = () => supabase
-    .from('wholesaleorders')
-    .select('*');
-    
+    .from('wholesale_order')
+    .select(`
+    *,
+    wholesale_products_price(
+      id
+    )
+    `);
+
   useEffect(() => {
     if (user && !isLoadingData && !userDetails) {
       setIsloadingData(true);
@@ -48,11 +53,17 @@ export const MyUserContextProvider = (props: Props) => {
           const userDetailsPromise = results[0];
           const orderPromise = results[1]!;
 
-          if (userDetailsPromise.status === 'fulfilled')
+          if (userDetailsPromise.status === 'fulfilled') {
+            console.log("userdetails", userDetailsPromise.value.data)
             setUserDetails(userDetailsPromise.value.data);
+          }
 
-          if (orderPromise.status === 'fulfilled')
+          if (orderPromise.status === 'fulfilled') {
+            console.log("orderdetails", orderPromise.value.data)
             setOrder(orderPromise.value.data);
+          }
+
+
           setIsloadingData(false);
         }
       );

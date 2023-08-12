@@ -1,6 +1,7 @@
 import React from 'react'
-import Sidebar from '../components/Sidebar'
-import WholesaleOrdersComp from '../components/WholesaleOrdersComp'
+import Sidebar from '../../components/Sidebar'
+import WholesaleOrdersComp from '../../components/WholesaleOrdersComp'
+import WholesaleOrdersSpecificComp from '@/app/components/WholesaleOrdersSpecificComp'
 
 const index = () => {
   return (
@@ -12,7 +13,7 @@ const index = () => {
             </div>
         </div>
         <div className='w-full '>
-            <WholesaleOrdersComp />
+            <WholesaleOrdersSpecificComp />
         </div>
     </div>
 </>

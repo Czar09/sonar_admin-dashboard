@@ -67,7 +67,8 @@ const Sidebar = () => {
                                 </div>
                             </Link>
                         </div>
-                    ) : userDetails?.role == 'seller' ?
+                    ) :
+                    userDetails?.role == 'seller' ?
                         (
                             <div className='flex flex-col'>
                                 <Link className='' href="/admin">
