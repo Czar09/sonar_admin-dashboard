@@ -89,7 +89,7 @@ const Sidebar = () => {
                                         Products
                                     </div>
                                 </Link>
-                                <Link className='' href="/wholesaleorders">
+                                <Link className='' href="/wholesaleorders/your-orders">
                                     <div className='flex justify-start gap-3 hover:bg-indigo-500 hover:text-white rounded-lg cursor-pointer transition-all duration-300 mt-2 py-3 px-4 text-black font-light'>
                                         <i className='text-2xl'><PiMoneyBold /></i>
                                         WholeSale Orders

@@ -12,6 +12,7 @@ type UserContextType = {
   userDetails: { [x: string]: any } | null;
   isLoading: boolean;
   order: { [x: string]: any }[] | null;
+  sellorder: { [x: string]: any }[] | null;
 };
 
 export const UserContext = createContext<UserContextType | undefined>(
@@ -34,6 +35,7 @@ export const MyUserContextProvider = (props: Props) => {
   const [isLoadingData, setIsloadingData] = useState(false);
   const [userDetails, setUserDetails] = useState<{ [x: string]: any } | null>(null);
   const [order, setOrder] = useState<{ [x: string]: any }[] | null>(null);
+  const [sellorder, setSellOrder] = useState<{ [x: string]: any }[] | null>(null);
 
   const getUserDetails = () => supabase.from('users').select('*').single();
   const getOrders = () => supabase
@@ -44,14 +46,23 @@ export const MyUserContextProvider = (props: Props) => {
       id
     )
     `);
+  const getSellOrders = () => supabase
+    .from('seller_order')
+    .select(`
+    *,
+    seller_products_price(
+      id
+    )
+    `);
 
   useEffect(() => {
     if (user && !isLoadingData && !userDetails) {
       setIsloadingData(true);
-      Promise.allSettled([getUserDetails(), getOrders()]).then(
+      Promise.allSettled([getUserDetails(), getOrders(), getSellOrders()]).then(
         (results) => {
           const userDetailsPromise = results[0];
           const orderPromise = results[1]!;
+          const sellorderPromise = results[2]!;
 
           if (userDetailsPromise.status === 'fulfilled') {
             console.log("userdetails", userDetailsPromise.value.data)
@@ -63,6 +74,10 @@ export const MyUserContextProvider = (props: Props) => {
             setOrder(orderPromise.value.data);
           }
 
+          if (sellorderPromise.status === 'fulfilled') {
+            console.log("sellorderdetails", sellorderPromise.value.data)
+            setSellOrder(sellorderPromise.value.data);
+          }
 
           setIsloadingData(false);
         }
@@ -70,6 +85,7 @@ export const MyUserContextProvider = (props: Props) => {
     } else if (!user && !isLoadingUser && !isLoadingData) {
       setUserDetails(null);
       setOrder(null);
+      setSellOrder(null);
     }
   }, [user, isLoadingUser]);
 
@@ -78,7 +94,8 @@ export const MyUserContextProvider = (props: Props) => {
     user,
     userDetails,
     isLoading: isLoadingUser || isLoadingData,
-    order
+    order,
+    sellorder
   };
 
   return <UserContext.Provider value={value} {...props} />;

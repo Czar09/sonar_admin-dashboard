@@ -3,18 +3,18 @@ import React, { useEffect } from 'react'
 import { getOrders, getUsers, getWholeSaleOrders, supabaseAdmin } from '@/utils/supabase-admin'
 import { useUser } from '@/utils/useUser';
 
-const WholesaleOrdersSpecificComp = () => {
+const SellerOrderSpecificComp = () => {
 
     const [ordernum, setOrdernum] = React.useState(0);
     const [usernum, setUsernum] = React.useState<{ [x: string]: any }[] | null>(null);
     const [userlength, setUserlength] = React.useState(0);
-    const { isLoading, userDetails, order } = useUser();
+    const { isLoading, userDetails, sellorder } = useUser();
 
-    console.log("order", order)
+    console.log("sellinordeser", sellorder)
 
     const updateOrderStatus = async (id: number, status: string) => {
         const { error } = await supabaseAdmin
-            .from('wholesaleorders_duplicate')
+            .from('sellerorders_duplicate')
             .update({ status: status })
             .eq('id', id);
     }
@@ -30,7 +30,7 @@ const WholesaleOrdersSpecificComp = () => {
             {
                 event: '*',
                 schema: 'public',
-                table: 'wholesaleorders_duplicate',
+                table: 'sellerorders_duplicate',
             },
             (payload) => {
 
@@ -42,7 +42,7 @@ const WholesaleOrdersSpecificComp = () => {
         <div className='md:p-10 px-4 py-6'>
             <div className="flex flex-wrap w-full ">
                 <div className="lg:w-1/2 w-full mb-6 lg:mb-0">
-                    <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">WholeSale orders</h1>
+                    <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Seller orders</h1>
                     <div className="h-1 w-20 bg-indigo-500 rounded"></div>
                 </div>
             </div>
@@ -53,7 +53,7 @@ const WholesaleOrdersSpecificComp = () => {
                         <div className="flex justify-center items-center">
                             <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
                         </div> :
-                        order?.map(prod => (
+                        sellorder?.map(prod => (
                             <div key={prod.id} className=" p-2">
 
                                 <div className={`p-3 rounded-lg ${prod?.status == 'pending' ? ` bg-yellow-500` : prod.order_status == 'approved' || prod?.status == 'delivered' ? `bg-green-600` : prod?.status == 'cancelled' ? `bg-red-600` : `bg-blue-200`}`} >
@@ -75,7 +75,7 @@ const WholesaleOrdersSpecificComp = () => {
     )
 }
 
-export default WholesaleOrdersSpecificComp
+export default SellerOrderSpecificComp
 
 
 

@@ -4,6 +4,7 @@ import Sidebar from '../components/Sidebar'
 import WholesaleOrdersComp from '../components/WholesaleOrdersComp'
 import { useUser } from '@/utils/useUser'
 import { useRouter } from 'next/navigation';
+import SellerOrderComp from '../components/SellerOrdersComp';
 
 const Index = () => {
     const {isLoading, userDetails}= useUser();
@@ -11,12 +12,6 @@ const Index = () => {
 
     if(isLoading){
         return <div>Loading...</div>
-    }
-    if(!userDetails){
-        router.push('/login')
-    }
-    if(userDetails?.role !='superAdmin' || userDetails?.role !='admin'){
-        router.push('/wholesaleorders/your-orders')
     }
   return (
     <>
@@ -27,7 +22,7 @@ const Index = () => {
             </div>
         </div>
         <div className='w-full '>
-            <WholesaleOrdersComp />
+            <SellerOrderComp />
         </div>
     </div>
 </>

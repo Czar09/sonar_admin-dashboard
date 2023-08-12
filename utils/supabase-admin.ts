@@ -135,6 +135,37 @@ const getWholeSaleOrders = async () => {
   return data;
 }
 
+const getSellerOrders = async () => {
+  const { data, error } = await supabaseAdmin
+    .from('sellerorders_duplicate')
+    .select(`
+      *,
+      buyer:users (
+        id,
+        email,
+        full_name,
+        phone_number
+      ),
+      products(
+        id, 
+        name
+      ),
+      seller_products_price(
+        seller_id,
+        quantity,
+        price,
+       seller:users(
+          full_name, email, phone_number
+        )
+      )
+    `)
+    .order('order_date', { ascending: false })
+  if (error || !data) {
+    throw error || new Error('No product found');
+  }
+  return data;
+}
+
 const getWholeSaleOrdersSpecific = async (id: string) => {
 
   const{data, error} = await supabaseAdmin
@@ -253,6 +284,7 @@ export {
   getSellers,
   getWholeSellers,
   getWholeSaleOrders,
+  getSellerOrders,
   getWholeSalePrice,
   getSellerPrice,
   getWholeSaleOrdersSpecific
